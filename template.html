@@ -245,7 +245,7 @@ $(document).ready(function() {
 });
 
 function loadUserProgress() {
-    pybossa.userProgress('indonesiancardcatalogue_d3').done(function(data) {
+    pybossa.userProgress('convert_a_card').done(function(data) {
         var pct = Math.round((data.done * 100) / data.total);
         $("#progress").css("width", pct.toString() + "%");
         $("#progress").attr("title", "You have contributed to "
@@ -506,5 +506,5 @@ pybossa.presentTask(function(task, deferred) {
     }
 });
 
-pybossa.run('indonesiancardcatalogue_d3');
+pybossa.run('convert_a_card');
 </script>
