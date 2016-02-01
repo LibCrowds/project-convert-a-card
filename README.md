@@ -20,7 +20,15 @@ command line tool to create the projects.
 
 ## Configuration
 
-There are a few key things that will need to be configured for each language.
+There are a few things that will need to be configured for each language.
+
+
+### Trusted institutions
+
+The `libs` variable at the top of the JavaScript section of [template.html](template.html)
+contains a list of trusted institutions. Only records created or modified by these
+institutions will be returned in the WorldCat search results.
+
 
 ### Long description
 
@@ -32,3 +40,4 @@ bit about that particular collection, for example:
 
 This card catalogue covers about 40,000 printed items...
 ```
+
