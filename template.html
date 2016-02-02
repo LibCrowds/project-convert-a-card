@@ -1,5 +1,5 @@
 <style>
-#image-container {
+#image-container img {
     max-height: 460px
 }
 
@@ -46,11 +46,6 @@ record {
     margin-top: 20px
 }
 
-#results_count {
-    font-weight: 400;
-    margin-top: 10px
-}
-
 @media (max-width: 767px) {
     #comments_btn {
         padding-left: 15px
@@ -71,10 +66,6 @@ record {
 }
 
 @media (max-width: 991px) {
-    #results_count {
-        visibility: hidden;
-        display: none!important
-    }
     .btn-answer,
     #search_btn {
         display: block;
@@ -90,14 +81,15 @@ record {
 
 @media (min-width: 992px) {
     #image-container {
-        margin-top: 20px
+        position: fixed;
+        top: 120px;
     }
 }
 </style>
 
 <!-- Start of Photo DIV (column) -->
 <div class="col-xs-12 col-sm-7 col-sm-push-5 col-md-6 col-md-push-6 text-center">
-    <div id="image_container" style="position: relative;">
+    <div id="image-container">
         <a id="photo-link" href="#">
         <img id="photo" src="http://i.imgur.com/GeHxzb7.png" alt="Loading">
         </a>
@@ -181,11 +173,9 @@ record {
                 <label class="sr-only" for="title_field">ISBN</label>
                 <input type="number" id="isbn_field" class="form-control" placeholder="ISBN"/>
             </div>
-            <p id="results_count" class="pull-left padding-left-xs"></p>
             <div class="pull-right-md text-center" role="group">
                 <a href="#" class="btn btn-default btn-answer hidden-xs hidden-sm" value="Skip / Not Found">Skip / Not Found</a>
-                <button id="search_btn" class="btn btn-danger">Search
-                </button>
+                <button id="search_btn" class="btn btn-danger">Search</button>
                 <a href="#" class="btn btn-default btn-answer hidden-md hidden-lg" value="Skip / Not Found">Skip / Not Found</a>
             </div>
         </form>
@@ -208,7 +198,9 @@ record {
 
         <!-- Search results will be loaded here -->
         <div class="col-xs-12" id="search_results"></div>
-
+        <div class="col-xs-12 text-center padding-top-sm padding-bottom-sm" id="searching" style="display:none;">
+            <span class="fa fa-refresh fa-3x fa-spin"></span>
+        </div>
         <!-- Shelf mark form -->
         <form id="shelfmark_form" role="form" style="display:none;">
             <hr>
@@ -220,7 +212,7 @@ record {
         </form>
 
         <!-- Feedback items for the user -->
-        <div class="padding-top-sm text-center">
+        <div class="padding-top-lg text-center">
             <p><span id="i18n_working_task">You are working now on task:</span> <span id="task-id" class="label label-default">#</span></p>
             <p>
                 <span id="i18n_tasks_completed">You have contributed to</span> <span id="done" class="label label-danger"></span>
@@ -235,15 +227,12 @@ record {
 </div>
 
 <script>
-
 var libs = ['CUY', 'ZCU', 'HMY', 'PULEA', 'YUL', 'CNEAL', 'CGU', 'COO', 'AMH',
             'AUT', 'NSL', 'SLY', 'L2U', 'OCLCA', 'OCLCQ', 'OCLCF', 'OCLCO',
             'BLSTP']
 
-$(document).ready(function() {
-    $("#image_container").draggable();
-});
 
+/** Load the user progress items. */
 function loadUserProgress() {
     pybossa.userProgress('convert_a_card').done(function(data) {
         var pct = Math.round((data.done * 100) / data.total);
@@ -257,24 +246,15 @@ function loadUserProgress() {
     });
 }
 
-/** Hide alerts, reset result count and set the search button spinning. */
-function displaySearching() {
-    $('#search_btn').html('<span class="fa fa-refresh fa-spin"></span> Searching');
-    $('#search_btn').fadeTo(500, 0.3);
-    $(".alert").hide();
-    $("#search_results").slideUp();
-    $("#results_count").html('');
-}
 
-
-//Get and display the search results
+/** Build the initial query and trigger a search. */
 $(document).delegate('#search_form', 'submit', function(e) {
     e.preventDefault();
-    displaySearching();
     performSearch(buildQuery());
 });
 
 
+/** Use the form data to build a search query. */
 function buildQuery() {
     var title = $("#title_field").val().trim();
     if (title.length >= 2) {
@@ -303,6 +283,11 @@ function buildQuery() {
 
 /** Perform a search. */
 function performSearch(q, pos) {
+    $('#searching').show();
+    $('#search_btn').fadeTo(500, 0.3);
+    $("#search_results").slideUp();
+    $(".alert").hide();
+
     if (typeof pos === 'undefined') {
         pos = 1;
     }
@@ -326,11 +311,12 @@ function performSearch(q, pos) {
                 $('#error-details').html("Error: " + res['message']);
                 $('#error').show();
             }
+        }, complete: function() {
+            $('#search_btn').fadeTo(300, 1);
+            $('#search_btn').blur();
+            $('#searching').hide();
         }
     });
-    $('#search_btn').fadeTo(300, 1);
-    $('#search_btn').blur();
-    $('#search_btn').html('Search');
 }
 
 
@@ -340,18 +326,19 @@ function addOclcLinks() {
     $(".z3950-record").each(function() {
         var oclc_id = $(this).find('div:first').attr('id');
         var title = $(this).find('.title');
-        title.wrapInner('<a href="' + base_url + oclc_id + '" />');
+        title.wrapInner('<a href="' + base_url + oclc_id + '" target="_blank" />');
     });
 }
 
 
 /** Select a catalogue record. */
 $(document).delegate('.btn-z3950', 'click', function(e) {
-    var ctrl_num = $("#" + $(this).attr('data-control-num')).html();
+    var ctrl_num = $(this).attr('data-control-num');
+    var selected = $("#" + ctrl_num).html();
+    console.log(ctrl_num);
     $("#search_form").slideUp();
     $("#search_results").slideUp();
-    $("#results_count").html('');
-    $("#selected_record").prepend(ctrl_num);
+    $("#selected_record").prepend(selected);
     $("#selected_record").attr('data-selected-oclc', ctrl_num);
     $("#selected_record").show();
     $("#search_again").show();
@@ -372,9 +359,9 @@ $(document).delegate('#search_again', 'click', function(e) {
 
 /** Highlight the shelf mark location. */
 $("#shelfmark_field").focus(function() {
-    var container = $("#image_container");
+    var container = $("#image-container");
     $('<div class="child" style="position: absolute"/>')
-        .appendTo($("#image_container"))
+        .appendTo($("#image-container"))
         .css("left", container.width() - (.6 * container.width()) + "px")
         .css("bottom", container.height() - (.4 * container.height()) + "px")
         .css("width", (.6 * container.width()) + "px")
@@ -385,14 +372,13 @@ $("#shelfmark_field").focus(function() {
 
 /** Remove the shelf mark location highlight. */
 $("#shelfmark_field").blur(function() {
-    $("#image_container").children('div:last-child').remove();
+    $("#image-container").children('div:last-child').remove();
 });
 
 
 /** Load the next search result page. */
 $(document).delegate( "a:contains('Next >')", 'click', function(e) {
     e.preventDefault();
-    displaySearching();
     var url_parts = $("a:contains('Next >')").attr('href').split('&');
     var pos = url_parts[1].replace('position=','');
     var url_parts = $("a:contains('Next >')").attr('href').split('query=');
@@ -404,7 +390,6 @@ $(document).delegate( "a:contains('Next >')", 'click', function(e) {
 /** Load the previous search result page. */
 $(document).delegate( "a:contains('< Previous')", 'click', function(e) {
     e.preventDefault();
-    displaySearching();
     var url_parts = $("a:contains('< Previous')").attr('href').split('&');
     var pos = url_parts[1].replace('position=','');
     var url_parts = $("a:contains('< Previous')").attr('href').split('query=');
@@ -457,6 +442,7 @@ pybossa.presentTask(function(task, deferred) {
         $('#shelfmark_form').trigger("reset");
         $('#search_form').trigger("reset");
         $("#shelfmark_form").hide();
+        $("#searching").hide();
         $("#search_results").slideUp();
         $('#comments').removeClass('in');
         $('#comments').attr('aria-expanded', 'false');
@@ -467,23 +453,20 @@ pybossa.presentTask(function(task, deferred) {
         $("#selected_record").attr('data-selected-oclc', '');
         $("#search_again").hide();
         $("#comments_field").val('');
-        $("#results_count").html('');
         $("#selected_record").hide();
         $("#title_field").focus();
         $("#loading").fadeOut(500);
 
         $('.btn-answer').off('click').on('click', function(evt) {
             if (typeof $(this).attr("value") != 'undefined') {
-                task.answer = $("#shelfmark_form").serializeJSON();
-                task.answer.title = task.info.title;
-                task.answer.oclc = $("#selected_record").attr('data-selected-oclc');
-                task.answer.comments = $('#comments_field').val();
-                task.answer.shelfmark = $("#shelfmark_field").val();
-              	if (task.answer.oclc.length > 0) {
-                  task.answer.worldcat_url = 'https://www.worldcat.org/oclc/' + task.answer.oclc;
-                } else {
-                  task.answer.worldcat_url = '';
-                }
+
+                task.answer = {'title':  task.info.title,
+                               'oclc': $("#selected_record").attr('data-selected-oclc'),
+                               'comments': $('#comments_field').val(),
+                               'shelfmark': $("#shelfmark_field").val(),
+                               'worldcat_url': 'https://www.worldcat.org/oclc/'
+                               + $("#selected_record").attr('data-selected-oclc')
+                               }
                 pybossa.saveTask(task.id, task.answer)
                     .done(function() {
                         $("#success").fadeIn(500).fadeOut(1000);
@@ -501,7 +484,7 @@ pybossa.presentTask(function(task, deferred) {
         $("#loading").hide();
     } else {
       $(".skeleton").hide();
-      $('#image_container').hide();
+      $('#image-container').hide();
       $("#loading").hide();
     }
 });
