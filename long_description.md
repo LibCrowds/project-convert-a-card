@@ -15,6 +15,6 @@ matching electronic catalogue record.
 [shelfmark](http://www.oxforddictionaries.com/definition/english/shelf-mark)
 found on the card.
 
-The resulting electronic record can then be imported into British Library’s online
+The resulting electronic record can then be imported into British Library's online
 catalogue, making this huge collection of research material far easier to discover
 and access.
