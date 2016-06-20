@@ -1,5 +1,9 @@
 {
     "name": "Convert-a-Card",
     "short_name": "convert_a_card",
-    "description": "Transform this printed card catalogue into a searchable online database."
+    "description": "Transform this printed card catalogue into a searchable online database.",
+    "thumbnail": "https://raw.githubusercontent.com/LibCrowds/project-convert-a-card/master/assets/thumbnail.png",
+    "splash": "https://raw.githubusercontent.com/LibCrowds/project-convert-a-card/master/assets/splash.jpg",
+    "splash_attribution": "<a href=\"http://www.lensintheface.com\" target=\"_blank\">Jon Ellis</a>",
+    "flickr_video": "https://www.flickr.com/photos/132066275@N04/18956370974/player"
 }
