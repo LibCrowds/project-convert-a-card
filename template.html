@@ -109,9 +109,6 @@ record {
             <div id="loading" class="alert alert-info remove-margin-bottom" style="display:none;">
                 <a class="close">x</a><span id="i18n_loading_next_task">Loading next task...</span>
             </div>
-            <div id="taskcompleted" class="alert alert-info remove-margin-bottom" style="display:none;">
-                <strong id="i18n_task_completed">The task has been completed!</strong> <span id="i18n_thanks">Thanks a lot!</span>
-            </div>
             <div id="finish" class="alert alert-success remove-margin-bottom" style="display:none;">
                 <strong id="i18n_congratulations">Congratulations!</strong>
                 <span id="i18n_congratulations_text">You have participated in all available tasks!</span>
@@ -123,10 +120,9 @@ record {
             </div>
             <div id="error" class="alert alert-danger remove-margin-bottom" style="display:none;">
                 <a class="close">x</a>
-                <strong>Something went wrong! </strong> Please report this via the
-                <a href="{{url_for('discourse.index')}}">LibCrowds Community</a>
-            <br>
-            <div id ="error-details"></div>
+                <strong>Something went wrong! </strong> Please report this via the LibCrowds Community
+                <br>
+                <div id ="error-details"></div>
             </div>
             <div id="search_error" class="alert alert-info remove-margin-bottom" style="display:none;">
                 <a class="close">x</a>
@@ -206,7 +202,7 @@ record {
         <form id="shelfmark_form" role="form" style="display:none;">
             <hr>
             <div class="form-group">
-                <label for="shelfmark_field" class="control-label">Shelf Mark:</label>
+                <label for="shelfmark_field" class="control-label">Shelfmark:</label>
                 <input type="text" id="shelfmark_field" class="form-control" placeholder="Enter shelf mark" required/>
             </div>
             <a href="#" class="btn btn-success btn-answer pull-right" value="Done"><i class="fa fa-thumbs-o-up"></i> Done</a>
@@ -228,14 +224,35 @@ record {
 </div>
 
 <script>
+var project_short_name = 'convert_a_card';
 
-/** Trusted institution codes */
-var libs = ['OCLCA', 'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP'];
+var libs = {'pinyin': ['DLC', 'CUY', 'ZCU', 'HMY', 'PULEA', 'YUL', 'CNEAL',
+                       'CGU', 'COO', 'AMH', 'AUT', 'NSL', 'SLY', 'L2U', 'OCLCA',
+                       'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP'],
+            'urdu': ['DLC', 'CGU', 'ZCU', 'CLU', 'YUS', 'PAULM', 'HLS', 'GZM',
+                     'EYM', 'LOA', 'COO', 'CUY', 'PUL', 'EMU', 'DKAGE', 'WAU',
+                     'IXA', 'PK-LaUMS', 'PK-IsIIU', 'PK-IsIIUD', 'IIJNU',
+                     'OCLCA', 'OCLCO', 'OCLCQ', 'BLSTP'],
+            'indonesian': ['DLC', 'CUY', 'ZCU', 'HMY', 'PULEA', 'YUL', 'CNEAL',
+                           'CGU', 'COO', 'AMH', 'AUT', 'NSL', 'SLY', 'L2U',
+                           'OCLCA', 'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP']};
 
+/** Return trusted institution codes. */
+function getLibs() {
+    if (project_short_name.startsWith('pinyin')) {
+        return libs['pinyin'];
+    } else if (project_short_name.startsWith('indonesian')) {
+        return libs['indonesian'];
+    } else if (project_short_name.startsWith('urdu')) {
+        return libs['urdu'];
+    }
+    console.warn('Trusted institution codes not found for this project.');
+    return ['OCLCA', 'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP'];
+}
 
 /** Load the user progress items. */
 function loadUserProgress() {
-    pybossa.userProgress('convert_a_card').done(function(data) {
+    pybossa.userProgress(project_short_name).done(function(data) {
         var pct = Math.round((data.done * 100) / data.total);
         $("#progress").css("width", pct.toString() + "%");
         $("#progress").attr("title", "You have contributed to "
@@ -273,7 +290,7 @@ function buildQuery() {
 
     var year = $("#year_field").val().trim();
     var isbn = $("#isbn_field").val().trim().replace(/-/g, "");
-    var searchQuery = '(1,1183)="eng"and(1,6119)="(' + libs.join(' or ') + ')"';
+    var searchQuery = '(1,1183)="eng"and(1,6119)="(' + getLibs().join(' or ') + ')"';
     searchQuery += 'and(1,4)="' + title + '"';
     searchQuery += 'and(1,1003)="' + author + '"';
     searchQuery += 'and(1,31)="' + year + '"';
@@ -323,7 +340,7 @@ function performSearch(q, pos) {
 
 /** Use the OCLC control number to add a link to the WorldCat record. */
 function addOclcLinks() {
-    var base_url = 'http://www.worldcat.org/title/apis/oclc/'
+    var base_url = 'https://www.worldcat.org/title/apis/oclc/'
     $(".z3950-record").each(function() {
         var oclc_id = $(this).find('div:first').attr('id');
         var title = $(this).find('.title');
@@ -490,5 +507,5 @@ pybossa.presentTask(function(task, deferred) {
     }
 });
 
-pybossa.run('convert_a_card');
+pybossa.run(project_short_name);
 </script>
