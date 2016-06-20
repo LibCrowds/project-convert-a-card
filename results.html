@@ -1,0 +1,106 @@
+<div class="col-sm-9 col-sm-offset-3">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Result for task <span id="task_id"></span></h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <table class="table table-stripped table-responsive table-bordered">
+
+                <tbody>
+                    <tr>
+                        <td><strong>WorldCat Link</strong></td>
+                        <td id="worldcat_link"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Shelfmark</strong></td>
+                        <td id="shelfmark"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="pull-right" role="group">
+                <button id="prevResult" class="btn btn-default">Previous</button>
+                <button id="nextResult" class="btn btn-default">Next</button>
+            </div>
+        </div>
+        <div id="img" class="col-sm-6"></div>
+    </div>
+</div>
+<script>
+window.last_result_id = [0];
+window.project_id = 3;
+
+/** Show a result. */
+function showResult(last_result_id) {
+    if (last_result_id == 0) {
+        var url = "https://www.libcrowds.com/api/result?project_id=" + window.project_id + "&limit=1";
+        $("#prevResult").hide();
+    }
+    else {
+        $("#prevResult").show();
+        var url = "https://www.libcrowds.com/api/result?project_id=" + window.project_id + "&last_id=" + last_result_id + "&limit=1";
+    }
+    var xhrResult = $.ajax({
+      url: url,
+      dataType: "json",
+    });
+
+    xhrResult.done(function( results ) {
+        var result = results[0];
+        var taskURL = "https://www.libcrowds.com/api/task/" + result.task_id;
+        window.last_result_id.push(result.id);
+
+        var xhrTask = $.ajax({
+            url: taskURL,
+            dataType: "json",
+        }).done(function(task){
+            $("#task_id").text(task.id);
+            var img = $("<img/>");
+            img.attr("src", task.info.url_b);
+            img.addClass("img-responsive");
+            $("#img").html("").append(img);
+            populateTable(result);
+        });
+    });
+}
+
+/** Return a WorldCat link. */
+function getWorldCatLink(oclcNumber) {
+    var url = 'https://www.worldcat.org/oclc/' + oclcNumber;
+    return '<a href="' + url + '" target="_blank">' + url + '</a>'
+}
+
+/** Populate the result table. */
+function populateTable(result) {
+    if (typeof(result) == 'object' && result.info == 'Unanalysed') {
+        $('#worldcat_link').html('Pending');
+        $('#shelfmark').html('Pending');
+    } else if ('shelfmark' in result.info && 'oclc' in result.info) {
+        if (result.info.oclc.length > 0) {
+            var link = getWorldCatLink(result.info.oclc);
+            $('#worldcat_link').html(link);
+            $('#shelfmark').html(result.info.shelfmark);
+        } else {
+            $('#worldcat_link').html('Unknown');
+            $('#shelfmark').html('Unknown');
+        }
+    }
+}
+
+/** Handle next result button click. */
+$("#nextResult").off('click').on('click', function(e){
+    var index = window.last_result_id.length - 1;
+    showResult(window.last_result_id[index]);
+});
+
+/** Handle previous result button click. */
+$("#prevResult").off('click').on('click', function(e){
+    var index = window.last_result_id.length - 3;
+    var previous_id = window.last_result_id[index];
+    window.last_result_id.pop();
+    showResult(previous_id);
+});
+
+showResult(window.last_result_id[0]);
+</script>
