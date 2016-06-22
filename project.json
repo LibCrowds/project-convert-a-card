@@ -5,6 +5,6 @@
     "webhook": "https://analyse.libcrowds.com",
     "category_id": 1,
     "splash": "https://raw.githubusercontent.com/LibCrowds/project-convert-a-card/master/assets/splash.jpg",
-    "splash_attribution": "<a href=\"http://www.lensintheface.com\" target=\"_blank\">Jon Ellis</a>",
+    "splash_attribution": "Image: © <a href=\"http://www.lensintheface.com\" target=\"_blank\">Jon Ellis</a>",
     "tutorial_video": "<a data-flickr-embed=\"true\"  href=\"https://www.flickr.com/photos/132066275@N04/18956370974/in/album-72157652013005474/\" title=\"Convert-a-Card\"><img src=\"https://c7.staticflickr.com/1/535/18956370974_76bb6d42a0.jpg\" width=\"500\" height=\"281\" alt=\"Convert-a-Card\"></a><script async src=\"//embedr.flickr.com/assets/client-code.js\" charset=\"utf-8\"></script>"
 }
