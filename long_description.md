@@ -23,7 +23,7 @@ online catalogue, making this huge collection of research material far easier
 to discover and access.
 
 
-## The Collections
+## The Catalogues
 
 Following is a brief introduction to the catalogues for which Convert-a-Card
 projects have been launched so far.
@@ -48,7 +48,7 @@ before 1982 held within the Indonesian collections of the British Library.
 Books in this collection range from rare missionary works printed in Bengkulu,
 Ambon and Batavia in the early 19th century, to first editions of some of the
 most important works of modern Indonesian literature, such as Pramoedya Ananta
-ToerÕs Keluarga Gerilja (A guerilla family) published in Jakarta in 1950.
+Toerâ€™s Keluarga Gerilja (A guerilla family) published in Jakarta in 1950.
 
 
 
