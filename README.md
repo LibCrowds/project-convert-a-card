@@ -32,7 +32,7 @@ The following steps describe how to create a new project using
 5. Select Dashboard from the side menu then Import Tasks.
 6. Select the Flickr importer and, if necessary, log in using the LibCrowds Flickr credentials.
 7. Select your album and click Import.
-    - **Important:** Wait for an email to let you know that all tasks are imported, before proceeding to the next step.
+    - **Important:** If importing a large number of tasks, wait for the email to let you know that the import has finished before proceeding.
 8. From the Dashboard click Task Redundancy.
 9. Enter **3** and click Set Redundancy.
 10. To publish the project visit the Dashboard again and click Publish.
