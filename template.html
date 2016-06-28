@@ -237,6 +237,14 @@ var libs = {'pinyin': ['DLC', 'CUY', 'ZCU', 'HMY', 'PULEA', 'YUL', 'CNEAL',
                            'CGU', 'COO', 'AMH', 'AUT', 'NSL', 'SLY', 'L2U',
                            'OCLCA', 'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP']};
 
+/** IE polyfill for String.prototype.startsWith(). */  
+if (!String.prototype.startsWith) {
+  String.prototype.startsWith = function(searchString, position) {
+    position = position || 0;
+    return this.indexOf(searchString, position) === position;
+  };
+}
+
 /** Return trusted institution codes. */
 function getLibs() {
     if (project_short_name.startsWith('pinyin')) {
