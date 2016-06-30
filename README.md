@@ -24,7 +24,7 @@ The workflow established for Convert-a-Card projects is as follows:
 The following steps describe how to create a new project using
 [pybossa-github-builder](https://github.com/alexandermendes/pybossa-github-builder):
 
-1. Visit the [Create Project from GitHub](http://www.libcrowds.com/project/github/new) page.
+1. Visit the [Create Project from GitHub](https://www.libcrowds.com/github/project/new) page.
 2. Enter the URL of this page (https://github.com/LibCrowds/project-convert-a-card) and click Search.
 3. Modify the name and short name (e.g. to *Pinyin Card Catalogue: Drawer One* and *pinyincardcatalogue_d1*).
     - **Important:** The short name must start with one of the supported languages listed above, in lower case.
