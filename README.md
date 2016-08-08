@@ -71,4 +71,5 @@ record and the shelfmark. For all other tasks, human intervention will be requir
 4. Once all discrepencies have been dealt with download the updated CSV file once again.
 5. Submit this file to metadata services.
     - The Work Request Number for printed books in the oriental collections is 15.045.
-**Important:** If any changes are subsequently made, for example, if certain records are not able to be ingested, the results should be updated on the system as in part 4. This ensures that we can later identify the cards that still need to be processed by alternative means.
+
+**Important:** If any changes are subsequently made, for example, if certain records are not able to be ingested, the associated results should be updated on the system as in part 4. This ensures that we can later identify the cards that still need to be processed by alternative means.
