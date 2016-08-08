@@ -67,14 +67,8 @@ record and the shelfmark. For all other tasks, human intervention will be requir
 
 1. From the LibCrowds [About](http://www.libcrowds.com/about) page, download the results CSV file.
 2. Check the *info_oclc* and *info_shelfmark* columns for things like duplicates or poorly formatted shelfmarks.
-3. If you do notice any errors visit the analysis application to edit the result.
-    - Copy the *id* from the relevant row of the spreadsheet.
-    - Append this ID to the root URL of the analysis application, followed by /edit (e.g. `https://{root-url}/<id>/edit`).
-    - Here you can edit the result info directly (e.g. by deleting the values for oclc and shelfmark).
-    - **Note:** While it would be possible to edit the spreadsheet directly, following the above method ensures
-      that the final result is stored permentantly in the main database. Apart from being safer (this database is
-      backed up daily), this means that the downloadable final result data is kept in line with what was actually
-      submitted to metadata services.
-4. Once all discrepencies have been dealt with download the updated CSV file.
+3. If you do notice any errors you can visit the `/<project_short_name>/<result_id>` to edit the result.
+4. Once all discrepencies have been dealt with download the updated CSV file once again.
 5. Submit this file to metadata services.
     - The Work Request Number for printed books in the oriental collections is 15.045.
+**Important:** If any changes are subsequently made, for example, if certain records are not able to be ingested, the results should be updated on the system as in part 4. This ensures that we can later identify the cards that still need to be processed by alternative means.
