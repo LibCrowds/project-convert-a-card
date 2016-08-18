@@ -34,12 +34,12 @@ window.project_id = 3;
 /** Show a result. */
 function showResult(last_result_id) {
     if (last_result_id == 0) {
-        var url = "https://www.libcrowds.com/api/result?project_id=" + window.project_id + "&limit=1";
+        var url = "https://www.libcrowds.com/api/result?project_id=" + window.project_id + "&limit=1&all=1";
         $("#prevResult").hide();
     }
     else {
         $("#prevResult").show();
-        var url = "https://www.libcrowds.com/api/result?project_id=" + window.project_id + "&last_id=" + last_result_id + "&limit=1";
+        var url = "https://www.libcrowds.com/api/result?project_id=" + window.project_id + "&last_id=" + last_result_id + "&limit=1&all=1";
     }
     var xhrResult = $.ajax({
       url: url,
