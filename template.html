@@ -101,36 +101,6 @@ record {
 <div class="row skeleton">
     <div class="col-xs-12 col-sm-5 col-sm-pull-7 col-md-6 col-md-pull-6">
 
-        <!-- Success and Error Messages for the user -->
-        <div id="alert-row">
-            <div id="success" class="alert alert-success remove-margin-bottom" style="display:none;">
-                <a class="close">x</a><span>Answer saved</span>
-            </div>
-            <div id="loading" class="alert alert-info remove-margin-bottom" style="display:none;">
-                <a class="close">x</a><span id="i18n_loading_next_task">Loading next task...</span>
-            </div>
-            <div id="finish" class="alert alert-success remove-margin-bottom" style="display:none;">
-                <strong id="i18n_congratulations">Congratulations!</strong>
-                <span id="i18n_congratulations_text">You have participated in all available tasks!</span>
-                <br>
-                <div class="alert-actions">
-                    <a class="btn btn-small" href="/">Go Home</a>
-                    <a class="btn btn-small" href="/project">or, Check other projects</a>
-                </div>
-            </div>
-            <div id="error" class="alert alert-danger remove-margin-bottom" style="display:none;">
-                <a class="close">x</a>
-                <strong>Something went wrong! </strong> Please report this via the LibCrowds Community
-                <br>
-                <div id ="error-details"></div>
-            </div>
-            <div id="search_error" class="alert alert-info remove-margin-bottom" style="display:none;">
-                <a class="close">x</a>
-                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                <span id ="search_error_text">No results returned.</span>
-            </div>
-       </div>
-
         <!-- Start of Question and Submission DIV (column) -->
         <div class="row vcenter-md hcenter">
             <div class="col-md-8 col-xs-12">
@@ -328,14 +298,11 @@ function performSearch(q, pos) {
         }, error: function(jqXhr, textStatus, errorThrown) {
             var res = JSON.parse(jqXhr.responseText)
             if (jqXhr.status == 404) {
-                $("#search_error_text").html("No results found")
-                $("#search_error").show();
+                pybossaNotify('No results found', 'info')
             } else if (res['message'] == "Truncated words too short") {
-                $("#search_error_text").html("Search terms too short")
-                $("#search_error").show();
+                pybossaNotify('Search terms too short', 'info')
             } else {
-                $('#error-details').html("Error: " + res['message']);
-                $('#error').show();
+                pybossaNotify('Error: ' + res['message'], 'danger')
             }
         }, complete: function() {
             $('#search_btn').fadeTo(300, 1);
@@ -458,7 +425,6 @@ $(document).delegate('#shelfmark_form', 'submit', function(e) {
 
 /** Present the task. */
 pybossa.presentTask(function(task, deferred) {
-    $("#loading").fadeIn(500);
     if (!$.isEmptyObject(task)) {
         loadUserProgress();
 
@@ -481,7 +447,6 @@ pybossa.presentTask(function(task, deferred) {
         $("#comments_field").val('');
         $("#selected_record").hide();
         $("#title_field").focus();
-        $("#loading").fadeOut(500);
 
         $('.btn-answer').off('click').on('click', function(evt) {
             if (typeof $(this).attr("value") != 'undefined') {
@@ -495,24 +460,19 @@ pybossa.presentTask(function(task, deferred) {
                                }
                 pybossa.saveTask(task.id, task.answer)
                     .done(function() {
-                        $("#success").fadeIn(500).fadeOut(1000);
                         deferred.resolve();
                     })
                     .fail(function(e) {
-                        $('#error-details').html("Error: Answer submission failed");
-                        $("#error").show();
+                        pybossaNotify('Error: Answer submission failed')
                     });
             } else {
-              	$('#error-details').html("Error: Answer undefined");
-                $("#error").show();
+                pybossaNotify('Error: Answer undefined')
             }
         });
-        $("#loading").hide();
     } else {
       $(".skeleton").hide();
       $('#image-container').hide();
-      $("#loading").hide();
-      pybossaNotify('You have contributed to all available tasks!', true, 'info')
+      pybossaNotify('Congratulations! You have contributed to all available tasks!', 'info')
     }
 });
 
