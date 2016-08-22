@@ -24,11 +24,11 @@ The workflow established for Convert-a-Card projects is as follows:
 The following steps describe how to create a new project using
 [pybossa-github-builder](https://github.com/alexandermendes/pybossa-github-builder):
 
-1. Visit the [Create Project from GitHub](https://www.libcrowds.com/github/project/new) page.
-2. Enter the URL of this page (https://github.com/LibCrowds/project-convert-a-card) and click Search.
-3. Modify the name and short name (e.g. to *Pinyin Card Catalogue: Drawer One* and *pinyincardcatalogue_d1*).
+1. Create a new project.
     - **Important:** The short name must start with one of the supported languages listed above, in lower case.
-4. Click Create.
+2. Select Dashboard from the side menu then Sync with GitHub.
+3. Enter the URL of this page (https://github.com/LibCrowds/project-convert-a-card) and click Continue.
+4. On the following page, click Update.
 5. Select Dashboard from the side menu then Import Tasks.
 6. Select the Flickr importer and, if necessary, log in using the LibCrowds Flickr credentials.
 7. Select your album and click Import.
@@ -50,7 +50,7 @@ WorldCat record the final result will be set to a blank field for the WorldCat
 record and the shelfmark. For all other tasks, human intervention will be required.
 
 1. From the Dashboard click Analysis.
-    - If there are tasks pending analysis you will be presented with the card and all submitted answers.
+    - If there are tasks pending analysis you will be presented with a card and all associated answers.
     - Use the radio buttons to select the correct answer.
     - If no answers are acceptable, select the free text fields and leave them blank.
     - The free text fields can also be used to specify any other answer.
@@ -65,7 +65,7 @@ record and the shelfmark. For all other tasks, human intervention will be requir
 
 #### 3. Submit the data
 
-1. From the LibCrowds [About](http://www.libcrowds.com/about) page, download the results CSV file.
+1. From the LibCrowds [Data](http://www.libcrowds.com/data) page, download the results CSV file.
 2. Check the *info_oclc* and *info_shelfmark* columns for things like duplicates or poorly formatted shelfmarks.
 3. If you do notice any errors visit `https://analyse.libcrowds.com/<project_short_name>/<result_id>` to edit the result.
 4. Once all discrepencies have been dealt with download the updated CSV file once again.
@@ -73,7 +73,7 @@ record and the shelfmark. For all other tasks, human intervention will be requir
     - The Work Request Number for printed books in the oriental collections is 15.045.
 
 **Important:** If any changes are subsequently made, for example, if certain records are not able to be 
-ingested, the associated results should be updated on the system as in part 3. This ensures that we can 
+ingested, the associated results should be updated on the system as in step 3. This ensures that we can 
 later identify the cards that still need to be processed by alternative means.
 
 ## Downloading images
