@@ -237,7 +237,7 @@ var libs = {'pinyin': ['DLC', 'CUY', 'ZCU', 'HMY', 'PULEA', 'YUL', 'CNEAL',
                            'CGU', 'COO', 'AMH', 'AUT', 'NSL', 'SLY', 'L2U',
                            'OCLCA', 'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP']};
 
-/** IE polyfill for String.prototype.startsWith(). */  
+/** IE polyfill for String.prototype.startsWith(). */
 if (!String.prototype.startsWith) {
   String.prototype.startsWith = function(searchString, position) {
     position = position || 0;
@@ -512,6 +512,7 @@ pybossa.presentTask(function(task, deferred) {
       $(".skeleton").hide();
       $('#image-container').hide();
       $("#loading").hide();
+      pybossaNotify('You have contributed to all available tasks!', true, 'info')
     }
 });
 
