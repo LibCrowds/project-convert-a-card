@@ -1,105 +1,56 @@
-<div id="modal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<p>
+    The purpose of this project is to link scanned images, such as the one below,
+    to catalogue records held in an external database.
+</p>
+<div class="row text-center">
+    <img src="/static/img/tutorials/card.jpg" width="200" class="img-thumbnail"
+         alt="Chinese_PY_Titles_A-By1204" alt="Catalogue card" />
+</div>
+<br />
+<p>
+    Your tasks comes in two parts:
+    <ol>
+        <li>Locate the catalogue record relating to the card displayed.</li>
+        <li>Transcribe the shelf mark shown on the card.</li>
+    </ol>
+</p>
 
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">x</span>
-                </button>
-                <h3 class="text-center">Card Catalogue</h3>
-            </div>
+<p><strong>Step 1:</strong></p>
+<p>
+    Next to the image of the card you will be provided with a set of search fields for the title,
+    author, publication year and ISBN of the item. Once you have performed a search and retrieved
+    some results, you can choose the appropriate record by clicking on the select button to the
+    right of that record.
+</p>
+<p>
+    If you are unable to locate the correct record, please click the 'Skip / Not found' button.
+</p>
+<div class="row text-center">
+   <img src="/static/img/tutorials/card_buttons.png" width="200" class="img-thumbnail"
+        alt="Chinese_PY_Titles_A-By1204">
+</div>
+<br />
 
-            <div id="0" class="modal-body">
-                <p>
-                    The purpose of this project is to link scanned images, such as the one below,
-                    to catalogue records held in an external database.
-                </p>
-                <div class="row text-center">
-                    <img src="/static/img/tutorials/card.jpg" width="200" class="img-thumbnail"
-                         alt="Chinese_PY_Titles_A-By1204" alt="Catalogue card" />
-                </div>
-                <br />
-                <p>
-                    Your tasks comes in two parts:
-                    <ol>
-                        <li>Locate the catalogue record relating to the card displayed.</li>
-                        <li>Transcribe the shelf mark shown on the card.</li>
-                    </ol>
-                </p>
-            </div>
-
-            <div id="1" class="modal-body" style="display:none;">
-                <p><strong>Step 1:</strong></p>
-                <p>
-                    Next to the image of the card you will be provided with a set of search fields for the title,
-                    author, publication year and ISBN of the item. Once you have performed a search and retrieved
-                    some results, you can choose the appropriate record by clicking on the select button to the
-                    right of that record.
-                </p>
-                <p>
-                    If you are unable to locate the correct record, please click the 'Skip / Not found' button.
-                </p>
-                <div class="row text-center">
-                   <img src="/static/img/tutorials/card_buttons.png" width="200" class="img-thumbnail"
-                        alt="Chinese_PY_Titles_A-By1204">
-                </div>
-                <br />
-            </div>
-
-            <div id="2" class="modal-body" style="display:none;">
-                <p><strong>Step 2:</strong></p>
-                <p>
-                    If you managed to locate a matching record, the next stage is to transcribe the shelf mark,
-                    which is usually located at the top right of the image. Very occasionally the shelf mark
-                    will be in a different location but after you have completed a few tasks you should be
-                    able to recognise these shelf marks more easily.
-                </p>
-                <p>
-                    Please try to transcribe the shelf mark as accurately as possible, including maintaining the
-                    case and punctuation.
-                </p>
-                <p>
-                    That's it! Once you have have finished click 'Done' and you will be presented with the next task.
-                </p>
-                </div>
-
-                <div class="modal-footer">
-                    <a id="prevBtn" href="#" onclick="showStep('prev')" class="btn btn-default">Previous</a>
-                    <a id="nextBtn" href="#" onclick="showStep('next')" class="btn btn-success">Next</a>
-                    <button id="startContrib" data-dismiss="modal" class="btn btn-primary" style="display:none">
-                        <i class="glyphicon glyphicon-thumbs-up"></i> Start
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </div>
+<p><strong>Step 2:</strong></p>
+<p>
+    If you managed to locate a matching record, the next stage is to transcribe the shelf mark,
+    which is usually located at the top right of the image. Very occasionally the shelf mark
+    will be in a different location but after you have completed a few tasks you should be
+    able to recognise these shelf marks more easily.
+</p>
+<p>
+    Please try to transcribe the shelf mark as accurately as possible, including maintaining the
+    case and punctuation.
+</p>
+<p>
+    That's it! Once you have have finished click 'Done' and you will be presented with the next task.
+</p>
 </div>
 
-<script>
-    var step = -1;
-
-    function showStep(action) {
-        $("#" + step).hide();
-        if (action == 'next') {
-            step = step + 1;
-        }
-        if (action == 'prev') {
-            step = step - 1;
-        }
-        if (step == 0) {
-            $("#prevBtn").hide();
-        }
-        else {
-            $("#prevBtn").show();
-        }
-        if (step == 1 ) {
-            $("#nextBtn").hide();
-            $("#startContrib").show();
-        }
-        $("#" + step).show();
-    }
-
-    showStep('next');
-    $("#modal").modal('show');
-</script>
+<div class="modal-footer">
+    <a id="prevBtn" href="#" onclick="showStep('prev')" class="btn btn-default">Previous</a>
+    <a id="nextBtn" href="#" onclick="showStep('next')" class="btn btn-success">Next</a>
+    <button id="startContrib" data-dismiss="modal" class="btn btn-primary" style="display:none">
+        <i class="glyphicon glyphicon-thumbs-up"></i> Start
+    </button>
+</div>
