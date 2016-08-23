@@ -49,21 +49,21 @@ to that answer. For those tasks where no contributors were able to find a matchi
 WorldCat record the final result will be set to a blank field for the WorldCat
 record and the shelfmark. For all other tasks, human intervention will be required.
 
-1. From the Dashboard click Analysis.
-    - If there are tasks pending analysis you will be presented with a card and all associated answers.
-    - Use the radio buttons to select the correct answer.
-2. Once a project has been completed, ensure that all tasks have been analysed.
-    - A notification label next to the Analysis menu option shows how many tasks are pending analysis.
-    - On clicking the Analysis link a message will also be displayed if there are no pending tasks.
-3. From the Dashboard click Results.
-    - This view allows you to scroll through the final results for the purpose of spot checking.
+1. Sign in and select Open Project from the menu at the top right of the screen. Here 
+   you will see all projects for which you are the project owner.
+2. Open the project then from the left-hand menu click Analysis. If there are tasks pending analysis you will 
+   be presented with a card and all associated answers. Otherwise, a message will be displayed
+   saying that there are no unanalysed results to process.
+3. To spot check results open the project as above then click results from the left-hand menu.
 
-**Note:** All of the above can be performed at any time, as the project is ongoing.
+**Important:** Once a project has been completed ensure that all results are analysed by either clicking through
+to the analysis application, as in step 3, or by downloading the relevant CSV file from the [LibCrowds Data](https://www.libcrowds.com/data/) page
+and ensuring that there are no rows with 'Unanalysed' in the *info* column.
 
 
 #### 3. Submit the data
 
-1. From the LibCrowds [Data](http://www.libcrowds.com/data) page, download the results CSV file.
+1. Download the results CSV file for the project from the [LibCrowds Data](http://www.libcrowds.com/data) page.
 2. Check the *info_oclc* and *info_shelfmark* columns for things like duplicates or poorly formatted shelfmarks.
 3. If you do notice any errors visit `https://analyse.libcrowds.com/<project_short_name>/<result_id>` to edit the result.
 4. Once all discrepencies have been dealt with download the updated CSV file once again.
