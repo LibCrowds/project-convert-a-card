@@ -54,6 +54,9 @@ record and the shelfmark. For all other tasks, human intervention will be requir
 2. Open the project then from the left-hand menu click Analysis. If there are tasks pending analysis you will 
    be presented with a card and all associated answers. Otherwise, a message will be displayed
    saying that there are no unanalysed results to process.
+    - When you first visit the analysis application you'll be asked for a username and password, which can
+      be supplied by a LibCrowds administrator.
+    - Users other than the project owner can also help analyse results by visiting the following URL directly: `https://analyse.libcrowds.com/<project_short_name>`
 3. To spot check results open the project as above then click results from the left-hand menu.
 
 **Important:** Once a project has been completed ensure that all results are analysed by either clicking through
