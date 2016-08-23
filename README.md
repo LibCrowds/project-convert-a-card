@@ -52,11 +52,9 @@ record and the shelfmark. For all other tasks, human intervention will be requir
 1. From the Dashboard click Analysis.
     - If there are tasks pending analysis you will be presented with a card and all associated answers.
     - Use the radio buttons to select the correct answer.
-    - If no answers are acceptable, select the free text fields and leave them blank.
-    - The free text fields can also be used to specify any other answer.
 2. Once a project has been completed, ensure that all tasks have been analysed.
     - A notification label next to the Analysis menu option shows how many tasks are pending analysis.
-    - On clicking the link a message will also be displayed if there are no pending tasks.
+    - On clicking the Analysis link a message will also be displayed if there are no pending tasks.
 3. From the Dashboard click Results.
     - This view allows you to scroll through the final results for the purpose of spot checking.
 
@@ -72,15 +70,17 @@ record and the shelfmark. For all other tasks, human intervention will be requir
 5. Submit this file to metadata services.
     - The Work Request Number for printed books in the oriental collections is 15.045.
 
-**Important:** If any changes are subsequently made, for example, if certain records are not able to be 
-ingested, the associated results should be updated on the system as in step 3. This ensures that we can 
+**Important:** If any changes are subsequently made, for example, if certain records are not able to be
+ingested, the associated results should be updated on the system as in step 3. This ensures that we can
 later identify the cards that still need to be processed by alternative means.
+
 
 ## Downloading images
 
-The analysis application can be used to download sets of images from flickr by listing their
-task IDs in the form at `https://analyse.libcrowds.com/<project_short_name>/download`. These
-task IDs can be found in the results CSV files.
+The analysis application can be used to download sets of images from Flickr by listing their
+task IDs in the form at `https://analyse.libcrowds.com/<project_short_name>/download`. You can
+visit this URL by clicking the Download Input menu link in your project dashboard. The
+task IDs can be found in the results CSV file for your project.
 
 So, to download all images for which a WorldCat record was not found just filter the
 *info_oclc* column to show blank cells only then copy the contents of the *task_id* column
