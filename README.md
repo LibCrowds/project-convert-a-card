@@ -1,4 +1,4 @@
-# project-convertacard
+# project-convert-a-card
 
 This is the template for the Convert-a-Card projects seen on LibCrowds.
 
