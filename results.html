@@ -1,106 +1,220 @@
+<style>
+    #image-container,
+    #image-container img
+    {
+        width: 100%
+    }
+    #result-table>tbody>tr>td:first-child {
+        width: 1%;
+        white-space: nowrap;
+    }
+    #next-result,
+    #previous-result,
+    #random-result {
+   	display: none;
+    }
+</style>
+
 <div class="col-sm-9 col-sm-offset-3">
     <div class="row">
-        <div class="col-md-12">
-            <h2>Result for task <span id="task_id"></span></h2>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-sm-6">
-            <table class="table table-stripped table-responsive table-bordered">
-
-                <tbody>
-                    <tr>
-                        <td><strong>WorldCat Link</strong></td>
-                        <td id="worldcat_link"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Shelfmark</strong></td>
-                        <td id="shelfmark"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="pull-right" role="group">
-                <button id="prevResult" class="btn btn-default">Previous</button>
-                <button id="nextResult" class="btn btn-default">Next</button>
+            <!-- Result info loaded here -->
+            <h2>Result <span id="result-id">loading...</span></h2>
+            <table id="result-table" class="table table-stripped table-responsive table-bordered"></table>
+            <div id="result-buttons" class="pull-right" role="group">
+                <button id="previous-result" class="btn btn-default">Previous</button>
+                <button id="next-result" class="btn btn-default">Next</button>
+                <button id="random-result" class="btn btn-success">Random</button>
             </div>
         </div>
-        <div id="img" class="col-sm-6"></div>
+
+        <div class="col-sm-6">
+            <!-- Image loaded here -->
+            <div id="image-container">
+                <img src="https://i.imgur.com/GeHxzb7.png" alt="Loading">
+            </div>
+        </div>
     </div>
 </div>
+
 <script>
-window.last_result_id = [0];
-window.project_id = 3;
+    var project_short_name = 'convert_a_card';
+    var results   = {},
+        resultIds = [];
 
-/** Show a result. */
-function showResult(last_result_id) {
-    if (last_result_id == 0) {
-        var url = "https://www.libcrowds.com/api/result?project_id=" + window.project_id + "&limit=1&all=1";
-        $("#prevResult").hide();
-    }
-    else {
-        $("#prevResult").show();
-        var url = "https://www.libcrowds.com/api/result?project_id=" + window.project_id + "&last_id=" + last_result_id + "&limit=1&all=1";
-    }
-    var xhrResult = $.ajax({
-      url: url,
-      dataType: "json",
-    });
 
-    xhrResult.done(function( results ) {
-        var result = results[0];
-        var taskURL = "https://www.libcrowds.com/api/task/" + result.task_id;
-        window.last_result_id.push(result.id);
-
-        var xhrTask = $.ajax({
-            url: taskURL,
-            dataType: "json",
-        }).done(function(task){
-            $("#task_id").text(task.id);
-            var img = $("<img/>");
-            img.attr("src", task.info.url_b);
-            img.addClass("img-responsive");
-            $("#img").html("").append(img);
-            populateTable(result);
+    /** Retrieve all results for a project. */
+    function getAllResults(project, deferred) {
+        var last_id = resultIds[resultIds.length - 1];
+        $.ajax({
+            url: '/api/result',
+            data: {
+                project_id: project.id,
+                last_id: last_id,
+                limit: 100,
+                all: 1
+            },
+            dataType: 'json'
+        }).done(function(data) {
+            data.forEach(function(item){
+                results[item.id] = item;
+                resultIds.push(item.id);
+                temp_last_id = item.id;
+            });
+            if (resultIds.length > 0 && resultIds[resultIds.length - 1] != last_id) {
+                getAllResults(project, deferred);
+            } else {
+                deferred.resolve();
+            }
         });
-    });
-}
+    }
 
-/** Return a WorldCat link. */
-function getWorldCatLink(oclcNumber) {
-    var url = 'https://www.worldcat.org/oclc/' + oclcNumber;
-    return '<a href="' + url + '" target="_blank">' + url + '</a>'
-}
 
-/** Populate the result table. */
-function populateTable(result) {
-    if (typeof(result) == 'object' && result.info == 'Unanalysed') {
-        $('#worldcat_link').html('Pending');
-        $('#shelfmark').html('Pending');
-    } else if ('shelfmark' in result.info && 'oclc' in result.info) {
-        if (result.info.oclc.length > 0) {
-            var link = getWorldCatLink(result.info.oclc);
-            $('#worldcat_link').html(link);
-            $('#shelfmark').html(result.info.shelfmark);
-        } else {
-            $('#worldcat_link').html('Unknown');
-            $('#shelfmark').html('Unknown');
+    /** Retrieve a project from its short name. */
+    function getProject(short_name, deferred) {
+        $.ajax({
+            url: '/api/project',
+            data: {short_name: short_name, all: 1},
+            dataType: 'json'
+        }).done(function(data){
+            if (data[0] == null){
+                pybossaNotify('Error: Project not found', 'error');
+                throw new Error('Project not found');
+            }
+            deferred.resolve(data[0]);
+        });
+    }
+
+
+    /** Retrive the task for a result. */
+    function getTask(result, deferred) {
+        $.ajax({
+            url: '/api/task/' + result.task_id,
+            dataType: 'json'
+        }).done(function(data) {
+            if (data == null) {
+                pybossaNotify('Error: Task not found', 'error');
+                throw new Error('Task not found');
+            }
+            deferred.resolve(data);
+        });
+    }
+
+
+    /** Load and display the task input. */
+    function loadImage(task) {
+        var img = $("<img />");
+        img.attr('src', task.info.url_b + "?now=" + new Date().getTime());
+        img.addClass("img-responsive");
+        $("#image-container").html("").append(img);
+    }
+
+
+    /** Load the result info into the table. */
+    function loadTable(result) {
+        $('#result-table').html('<tbody></tbody>');
+        $.each(result.info, function(k, v) {
+            $('#result-table tbody').append('<tr><td><strong>' + k + '</strong></td>' +
+                                    '<td>' + v + '</td></tr>')
+        });
+    }
+
+
+    /** Load and display result. */
+    function loadResult(result) {
+        var def = $.Deferred();
+        getTask(result, def);
+        def.done(function(task) {
+            $("#task-id").text(task.id);
+            $("#result-id").text(result.id);
+            loadImage(task);
+            loadTable(result);
+            loadWorldCatLink();
+            loadResultButtons();
+        });
+    }
+
+
+    /** Load the result buttons. */
+    function loadResultButtons() {
+        var currentResultId = $('#result-id').html();
+        var isFirst = resultIds[0] == currentResultId;
+        var isLast = resultIds[resultIds.length - 1] == currentResultId;
+        $('#previous-result').hide();
+        $('#next-result').hide();
+        if (!isLast) {
+            $('#next-result').show();
+        }
+        if (!isFirst) {
+            $('#previous-result').show();
+        }
+        $('#random-result').show();
+    }
+
+
+    /** Return a WorldCat link. */
+    function loadWorldCatLink(oclcNumber) {
+        var oclcCell = $('#result-table td:contains("oclc")').siblings().eq(0),
+            oclcNum  = oclcCell.html(),
+            oclcUrl  = 'https://www.worldcat.org/oclc/' + oclcNum;
+        if (oclcNum.length > 0) {
+            oclcCell.html('<a href="' + oclcUrl + '" target="_blank">' + oclcNum + '</a>');
         }
     }
-}
 
-/** Handle next result button click. */
-$("#nextResult").off('click').on('click', function(e){
-    var index = window.last_result_id.length - 1;
-    showResult(window.last_result_id[index]);
-});
 
-/** Handle previous result button click. */
-$("#prevResult").off('click').on('click', function(e){
-    var index = window.last_result_id.length - 3;
-    var previous_id = window.last_result_id[index];
-    window.last_result_id.pop();
-    showResult(previous_id);
-});
+    /** Handle next result button click. */
+    $("#next-result").on('click', function(e){
+        var resultId   = parseInt($('#result-id').html()),
+            nextId     = resultIds[resultIds.indexOf(resultId) + 2],
+            nextResult = results[nextId];
+        if (nextResult == null) {
+            pybossaNotify('Error: No next result', 'error');
+            throw new Error('No next result');
+        }
+        loadResult(nextResult);
+    });
 
-showResult(window.last_result_id[0]);
+
+    /** Handle previous result button click. */
+    $("#previous-result").on('click', function(e){
+        var resultId       = parseInt($('#result-id').html()),
+            previousId     = resultIds[resultIds.indexOf(resultId) - 1],
+            previousResult = results[previousId];
+        if (previousResult == null) {
+            pybossaNotify('Error: No previous result', 'error');
+            throw new Error('No previous result');
+        }
+        loadResult(previousResult);
+    });
+
+
+    /** Handle random result button click. */
+    $("#random-result").off('click').on('click', function(e){
+        var resultId = resultIds[Math.floor(Math.random()*resultIds.length)],
+            result   = results[resultId];
+        loadResult(result);
+    });
+
+
+    /** Load all results and display the first. */
+    function run(short_name) {
+        var idDef  = $.Deferred(),
+            resDef = $.Deferred();
+        getProject(short_name, idDef);
+        idDef.done(function(project) {
+            getAllResults(project, resDef);
+            resDef.done(function() {
+                if (results.length === 0 || resultIds.length === 0) {
+                    pybossaNotify('No results found', 'info');
+                    $('#image-container').hide();
+                    $('#result-id').html('not found');
+                } else {
+                    loadResult(results[resultIds[0]]);
+                }
+            });
+        });
+    }
+
+    run(project_short_name);
 </script>
