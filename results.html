@@ -13,19 +13,37 @@
     #random-result {
    	display: none;
     }
+    #result-buttons {
+        text-align: right;
+        margin-top: 20px;
+        margin-bottom: 25px;
+    }
+    @media (max-width: 991px) {
+        #top-row,
+        #top-row #result-buttons {
+            text-align: center;
+        }
+    }
 </style>
 
 <div class="col-sm-9 col-sm-offset-3">
-    <div class="row">
-        <div class="col-sm-6">
-            <!-- Result info loaded here -->
+    <div id="top-row" class="row">
+        <div class="col-xs-12 col-md-6">
             <h2>Result <span id="result-id">loading...</span></h2>
-            <table id="result-table" class="table table-stripped table-responsive table-bordered"></table>
-            <div id="result-buttons" class="pull-right" role="group">
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <!-- Next/previous/random buttons -->
+            <div id="result-buttons">
                 <button id="previous-result" class="btn btn-default">Previous</button>
                 <button id="next-result" class="btn btn-default">Next</button>
                 <button id="random-result" class="btn btn-success">Random</button>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- Result info loaded here -->
+            <table id="result-table" class="table table-stripped table-responsive table-bordered"></table>
         </div>
 
         <div class="col-sm-6">
@@ -113,10 +131,14 @@
     /** Load the result info into the table. */
     function loadTable(result) {
         $('#result-table').html('<tbody></tbody>');
-        $.each(result.info, function(k, v) {
-            $('#result-table tbody').append('<tr><td><strong>' + k + '</strong></td>' +
-                                    '<td>' + v + '</td></tr>')
-        });
+        if (typeof(result.info) === 'object') {
+            $.each(result.info, function(k, v) {
+                $('#result-table tbody').append('<tr><td><strong>' + k + '</strong></td>' +
+                                        '<td>' + v + '</td></tr>')
+            });
+        } else {
+            $('#result-table').html('<thead><tr><th>' + result.info + '</thead></tr></th>');
+        }
     }
 
 
