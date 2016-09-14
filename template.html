@@ -463,10 +463,11 @@ pybossa.presentTask(function(task, deferred) {
                         deferred.resolve();
                     })
                     .fail(function(e) {
-                        pybossaNotify('Error: Answer submission failed')
+                        pybossaLogError(e);
+
                     });
             } else {
-                pybossaNotify('Error: Answer undefined')
+                pybossaNotify('Error: Answer undefined', 'danger');
             }
         });
     } else {
