@@ -96,8 +96,7 @@
             dataType: 'json'
         }).done(function(data){
             if (data[0] == null){
-                pybossaNotify('Error: Project not found', 'error');
-                throw new Error('Project not found');
+                pybossaLogError(new Error('Project not found'));
             }
             deferred.resolve(data[0]);
         });
@@ -111,8 +110,7 @@
             dataType: 'json'
         }).done(function(data) {
             if (data == null) {
-                pybossaNotify('Error: Task not found', 'error');
-                throw new Error('Task not found');
+                pybossaLogError(new Error('Task not found'));
             }
             deferred.resolve(data);
         });
@@ -191,8 +189,7 @@
             nextId     = resultIds[resultIds.indexOf(resultId) + 2],
             nextResult = results[nextId];
         if (nextResult == null) {
-            pybossaNotify('Error: No next result', 'error');
-            throw new Error('No next result');
+            pybossaLogError(new Error('Next result not found'));
         }
         loadResult(nextResult);
     });
@@ -204,8 +201,7 @@
             previousId     = resultIds[resultIds.indexOf(resultId) - 1],
             previousResult = results[previousId];
         if (previousResult == null) {
-            pybossaNotify('Error: No previous result', 'error');
-            throw new Error('No previous result');
+            pybossaLogError(new Error('Previous result not found'));
         }
         loadResult(previousResult);
     });
