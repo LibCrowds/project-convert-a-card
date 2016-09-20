@@ -186,7 +186,7 @@
     /** Handle next result button click. */
     $("#next-result").on('click', function(e){
         var resultId   = parseInt($('#result-id').html()),
-            nextId     = resultIds[resultIds.indexOf(resultId) + 2],
+            nextId     = resultIds[resultIds.indexOf(resultId) + 1],
             nextResult = results[nextId];
         if (nextResult == null) {
             pybossaLogError(new Error('Next result not found'));
