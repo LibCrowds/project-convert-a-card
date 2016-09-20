@@ -1,105 +1,83 @@
 <style>
-#image-container img {
-    max-height: 460px
-}
-
-h1#question {
-    font-size: 2.0em
-}
-
-img#photo {
-    max-width: 100%
-}
-
-.z3950-record {
-    border-bottom: 1px solid #EFEFEF;
-    padding-top: 20px;
-    padding-bottom: 20px
-}
-
-.z3950-record p {
-    margin: 0 auto;
-}
-
-.fa.spinning {
-    animation: spin 1s infinite linear;
-    -webkit-animation: spin2 1s infinite linear
-}
-
-record p,
-.chart p {
-    margin: 0
-}
-
-record {
-    border-bottom: 1px solid #EFEFEF;
-    display: block;
-    padding: 20px 0px
-}
-
-.btn-z3950 {
-    margin-top: 25px;
-}
-
-#search_results {
-    border-top: 1px solid #EFEFEF;
-    margin-top: 20px
-}
-
-@media (max-width: 767px) {
-    #comments_btn {
-        padding-left: 15px
+    .z3950-record {
+        border-bottom: 1px solid #EFEFEF;
+        padding-top: 20px;
+        padding-bottom: 20px
     }
-    #search_form label {
-        visibility: hidden;
+    .z3950-record p {
+        margin: 0 auto;
     }
-    h1#question {
-        text-align: center;
-        margin-bottom: 5px
+    .btn-z3950 {
+        margin-top: 25px;
     }
-}
 
-@media (min-width: 992px) and (max-width: 1199px) {
-    #image-container img {
-        max-height: 360px
-    }
-}
-
-@media (max-width: 991px) {
-    .btn-answer,
-    #search_btn {
-        display: block;
+    #search_results {
+        border-top: 1px solid #EFEFEF;
         margin-top: 20px
     }
-    #search_btn {
-        width: 100%
-    }
-    #search_form {
-        padding-bottom: 20px;
-    }
-}
 
-@media (min-width: 992px) {
-    #image-container {
-        position: fixed;
-        top: 120px;
-        right: 60px;
+    @media (min-width: 1200px) {
+	#image-container {
+	    width: calc(1170px/2);
+	}
     }
-}
+    @media (min-width: 992px) and (max-width: 1199px) {
+	#tutorial-btn {
+	    float: right;
+	    margin-top: 30px;
+	}
+	#image-container {
+	    width: calc(970px/2);
+	}
+    }
+    @media (min-width: 768px) and (max-width: 991px) {
+	#image-container {
+	    width: calc(750px/2);
+	}
+    }
+    @media (min-width: 768px) {
+	#image-container {
+	    position: fixed;
+	    left: inherit;
+	    padding-left: inherit;
+	    padding-right: inherit;
+	}
+    }
+    @media (max-width: 767px) {
+        #comments_btn {
+            padding-left: 15px
+        }
+        #search_form label {
+            visibility: hidden;
+        }
+    }
+    @media (max-width: 991px) {
+        .btn-answer,
+        #search_btn {
+            display: block;
+            margin-top: 20px
+        }
+        #search_btn {
+            width: 100%
+        }
+        #search_form {
+            padding-bottom: 20px;
+        }
+    }
 </style>
 
-<!-- Start of Photo DIV (column) -->
-<div class="col-xs-12 col-sm-7 col-sm-push-5 col-md-6 col-md-push-6 text-center">
-    <div id="image-container">
-        <a id="photo-link" href="#">
-        <img id="photo" src="http://i.imgur.com/GeHxzb7.png" alt="Loading">
-        </a>
-    </div>
-</div>
-
-<!-- Start Skeleton Row-->
 <div class="row skeleton">
-    <div class="col-xs-12 col-sm-5 col-sm-pull-7 col-md-6 col-md-pull-6">
+
+    <!-- Start of Photo DIV (column) -->
+    <div class="col-xs-12 col-sm-6 col-sm-push-6 text-center">
+        <div id="image-container">
+            <a id="photo-link" href="#">
+            <img id="photo" src="https://i.imgur.com/GeHxzb7.png" alt="Loading">
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-sm-pull-6">
 
         <!-- Start of Question and Submission DIV (column) -->
         <div class="row vcenter-md hcenter">
@@ -169,313 +147,295 @@ record {
             <span class="fa fa-refresh fa-3x fa-spin"></span>
         </div>
         <!-- Shelf mark form -->
-        <form id="shelfmark_form" role="form" style="display:none;">
-            <hr>
-            <div class="form-group">
-                <label for="shelfmark_field" class="control-label">Shelfmark:</label>
-                <input type="text" id="shelfmark_field" class="form-control" placeholder="Enter shelf mark" required/>
-            </div>
-            <a href="#" class="btn btn-success btn-answer pull-right" value="Done"><i class="fa fa-thumbs-o-up"></i> Done</a>
-        </form>
+        <div class="col-xs-12">
+            <form id="shelfmark_form" role="form" style="display:none;">
+                <div class="form-group">
+                    <label for="shelfmark_field" class="control-label">Shelfmark:</label>
+                    <input type="text" id="shelfmark_field" class="form-control" placeholder="Enter shelf mark" required/>
+                </div>
+                <a href="#" class="btn btn-success btn-answer pull-right" value="Done"><i class="fa fa-thumbs-o-up"></i> Done</a>
+            </form>
+        </div>
 
         <!-- Feedback items for the user -->
-        <div class="padding-top-lg text-center">
-            <p><span id="i18n_working_task">You are working now on task:</span> <span id="task-id" class="label label-default">#</span></p>
-            <p>
-                <span id="i18n_tasks_completed">You have contributed to</span> <span id="done" class="label label-danger"></span>
-                <span id="i18n_tasks_from">tasks from </span>
-                <span id="total" class="label label-danger"></span>
-            </p>
-            <div class="progress progress-striped">
-                <div id="progress" rel="tooltip" title="#" class="progress-bar" style="width: 0%;"  role="progressbar"></div>
+        <div class="col-xs-12">
+            <div class="padding-top-lg text-center">
+                <p><span id="i18n_working_task">You are working now on task:</span> <span id="task-id" class="label label-default">#</span></p>
+                <p>
+                    <span id="i18n_tasks_completed">You have contributed to</span> <span id="done" class="label label-danger"></span>
+                    <span id="i18n_tasks_from">tasks from </span>
+                    <span id="total" class="label label-danger"></span>
+                </p>
+                <div class="progress progress-striped">
+                    <div id="progress" rel="tooltip" title="#" class="progress-bar" style="width: 0%;"  role="progressbar"></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-var project_short_name = 'convert_a_card';
+    var project_short_name = 'convert_a_card';
 
-var libs = {'pinyin': ['DLC', 'CUY', 'ZCU', 'HMY', 'PULEA', 'YUL', 'CNEAL',
-                       'CGU', 'COO', 'AMH', 'AUT', 'NSL', 'SLY', 'L2U', 'OCLCA',
-                       'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP'],
-            'urdu': ['DLC', 'CGU', 'ZCU', 'CLU', 'YUS', 'PAULM', 'HLS', 'GZM',
-                     'EYM', 'LOA', 'COO', 'CUY', 'PUL', 'EMU', 'DKAGE', 'WAU',
-                     'IXA', 'PK-LaUMS', 'PK-IsIIU', 'PK-IsIIUD', 'IIJNU',
-                     'OCLCA', 'OCLCO', 'OCLCQ', 'BLSTP'],
-            'indonesian': ['DLC', 'CUY', 'ZCU', 'HMY', 'PULEA', 'YUL', 'CNEAL',
-                           'CGU', 'COO', 'AMH', 'AUT', 'NSL', 'SLY', 'L2U',
-                           'OCLCA', 'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP']};
+    var libs = {'pinyin': ['DLC', 'CUY', 'ZCU', 'HMY', 'PULEA', 'YUL', 'CNEAL',
+                           'CGU', 'COO', 'AMH', 'AUT', 'NSL', 'SLY', 'L2U', 'OCLCA',
+                           'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP'],
+                'urdu': ['DLC', 'CGU', 'ZCU', 'CLU', 'YUS', 'PAULM', 'HLS', 'GZM',
+                         'EYM', 'LOA', 'COO', 'CUY', 'PUL', 'EMU', 'DKAGE', 'WAU',
+                         'IXA', 'PK-LaUMS', 'PK-IsIIU', 'PK-IsIIUD', 'IIJNU',
+                         'OCLCA', 'OCLCO', 'OCLCQ', 'BLSTP'],
+                'indonesian': ['DLC', 'CUY', 'ZCU', 'HMY', 'PULEA', 'YUL', 'CNEAL',
+                               'CGU', 'COO', 'AMH', 'AUT', 'NSL', 'SLY', 'L2U',
+                               'OCLCA', 'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP']};
 
-/** IE polyfill for String.prototype.startsWith(). */
-if (!String.prototype.startsWith) {
-  String.prototype.startsWith = function(searchString, position) {
-    position = position || 0;
-    return this.indexOf(searchString, position) === position;
-  };
-}
-
-/** Return trusted institution codes. */
-function getLibs() {
-    if (project_short_name.startsWith('pinyin')) {
-        return libs['pinyin'];
-    } else if (project_short_name.startsWith('indonesian')) {
-        return libs['indonesian'];
-    } else if (project_short_name.startsWith('urdu')) {
-        return libs['urdu'];
+    /** IE polyfill for String.prototype.startsWith(). */
+    if (!String.prototype.startsWith) {
+      String.prototype.startsWith = function(searchString, position) {
+        position = position || 0;
+        return this.indexOf(searchString, position) === position;
+      };
     }
-    console.warn('Trusted institution codes not found for this project.');
-    return ['OCLCA', 'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP'];
-}
 
-/** Load the user progress items. */
-function loadUserProgress() {
-    pybossa.userProgress(project_short_name).done(function(data) {
-        var pct = Math.round((data.done * 100) / data.total);
-        $("#progress").css("width", pct.toString() + "%");
-        $("#progress").attr("title", "You have contributed to "
-                                     + pct.toString()
-                                     + "% of the tasks!");
-        $("#progress").tooltip({'placement': 'bottom'});
-        $("#total").text(data.total);
-        $("#done").text(data.done);
+    /** Return trusted institution codes. */
+    function getLibs() {
+        if (project_short_name.startsWith('pinyin')) {
+            return libs['pinyin'];
+        } else if (project_short_name.startsWith('indonesian')) {
+            return libs['indonesian'];
+        } else if (project_short_name.startsWith('urdu')) {
+            return libs['urdu'];
+        }
+        console.warn('Trusted institution codes not found for this project.');
+        return ['OCLCA', 'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP'];
+    }
+
+    /** Load the user progress items. */
+    function loadUserProgress() {
+        pybossa.userProgress(project_short_name).done(function(data) {
+            var pct = Math.round((data.done * 100) / data.total);
+            $("#progress").css("width", pct.toString() + "%");
+            $("#progress").attr("title", "You have contributed to "
+                                         + pct.toString()
+                                         + "% of the tasks!");
+            $("#progress").tooltip({'placement': 'bottom'});
+            $("#total").text(data.total);
+            $("#done").text(data.done);
+        });
+    }
+
+
+    /** Build the initial query and trigger a search. */
+    $(document).delegate('#search_form', 'submit', function(e) {
+        e.preventDefault();
+        performSearch(buildQuery());
     });
-}
 
 
-/** Build the initial query and trigger a search. */
-$(document).delegate('#search_form', 'submit', function(e) {
-    e.preventDefault();
-    performSearch(buildQuery());
-});
+    /** Use the form data to build a search query. */
+    function buildQuery() {
+        var title = $("#title_field").val().trim();
+        if (title.length >= 2) {
+          title += "?"
+        } else {
+          title = "";
+        }
 
+        var author = $("#author_field").val().trim();
+        if (author.length >= 2) {
+          author += "?"
+        } else {
+          author = "";
+        }
 
-/** Use the form data to build a search query. */
-function buildQuery() {
-    var title = $("#title_field").val().trim();
-    if (title.length >= 2) {
-      title += "?"
-    } else {
-      title = "";
+        var year = $("#year_field").val().trim();
+        var isbn = $("#isbn_field").val().trim().replace(/-/g, "");
+        var searchQuery = '(1,1183)="eng"and(1,6119)="(' + getLibs().join(' or ') + ')"';
+        searchQuery += 'and(1,4)="' + title + '"';
+        searchQuery += 'and(1,1003)="' + author + '"';
+        searchQuery += 'and(1,31)="' + year + '"';
+        searchQuery += 'and(1,7)="' + isbn + '"';
+        return searchQuery;
     }
 
-    var author = $("#author_field").val().trim();
-    if (author.length >= 2) {
-      author += "?"
-    } else {
-      author = "";
-    }
 
-    var year = $("#year_field").val().trim();
-    var isbn = $("#isbn_field").val().trim().replace(/-/g, "");
-    var searchQuery = '(1,1183)="eng"and(1,6119)="(' + getLibs().join(' or ') + ')"';
-    searchQuery += 'and(1,4)="' + title + '"';
-    searchQuery += 'and(1,1003)="' + author + '"';
-    searchQuery += 'and(1,31)="' + year + '"';
-    searchQuery += 'and(1,7)="' + isbn + '"';
-    return searchQuery;
-}
+    /** Perform a search. */
+    function performSearch(q, pos) {
+        $('#searching').show();
+        $('#search_btn').fadeTo(500, 0.3);
+        $("#search_results").slideUp();
+        $(".alert").hide();
 
-
-/** Perform a search. */
-function performSearch(q, pos) {
-    $('#searching').show();
-    $('#search_btn').fadeTo(500, 0.3);
-    $("#search_results").slideUp();
-    $(".alert").hide();
-
-    if (typeof pos === 'undefined') {
-        pos = 1;
-    }
-    $.ajax({
-        type: "get",
-        url: '/z3950/search/oclc/html',
-        data: {query: q, position: pos},
-        success: function(result) {
-            $("#search_results").html(result);
-            $("#search_results").slideDown();
-            addOclcLinks();
-        }, error: function(jqXhr, textStatus, errorThrown) {
-            var res = JSON.parse(jqXhr.responseText)
-            if (jqXhr.status == 404) {
-                pybossaNotify('No results found', 'info')
-            } else if (res['message'] == "Truncated words too short") {
-                pybossaNotify('Search terms too short', 'info')
-            } else {
-                pybossaNotify('Error: ' + res['message'], 'danger')
+        if (typeof pos === 'undefined') {
+            pos = 1;
+        }
+        $.ajax({
+            type: "get",
+            url: '/z3950/search/oclc/html',
+            data: {query: q, position: pos},
+            success: function(result) {
+                $("#search_results").html(result);
+                $("#search_results").slideDown();
+                addOclcLinks();
+            }, error: function(jqXhr, textStatus, errorThrown) {
+                var res = JSON.parse(jqXhr.responseText)
+                if (jqXhr.status == 404) {
+                    pybossaNotify('No results found', 'info')
+                } else if (res['message'] == "Truncated words too short") {
+                    pybossaNotify('Search terms too short', 'info')
+                } else {
+                    pybossaNotify('Error: ' + res['message'], 'danger')
+                }
+            }, complete: function() {
+                $('#search_btn').fadeTo(300, 1);
+                $('#search_btn').blur();
+                $('#searching').hide();
             }
-        }, complete: function() {
-            $('#search_btn').fadeTo(300, 1);
-            $('#search_btn').blur();
-            $('#searching').hide();
+        });
+    }
+
+
+    /** Use the OCLC control number to add a link to the WorldCat record. */
+    function addOclcLinks() {
+        var base_url = 'https://www.worldcat.org/title/apis/oclc/'
+        $(".z3950-record").each(function() {
+            var oclc_id = $(this).find('div:first').attr('id');
+            var title = $(this).find('.title');
+            title.wrapInner('<a href="' + base_url + oclc_id + '" target="_blank" />');
+        });
+    }
+
+
+    /** Select a catalogue record. */
+    $(document).delegate('.btn-z3950', 'click', function(e) {
+        var ctrl_num = $(this).attr('data-control-num');
+        var selected = $("#" + ctrl_num).html();
+        console.log(ctrl_num);
+        $("#search_form").slideUp();
+        $("#search_results").slideUp();
+        $("#selected_record").prepend(selected);
+        $("#selected_record").attr('data-selected-oclc', ctrl_num);
+        $("#selected_record").show();
+        $("#search_again").show();
+        $("#shelfmark_form").slideDown();
+        $("#shelfmark_field").focus();
+    });
+
+
+
+    /** Return to the search form. */
+    $(document).delegate('#search_again', 'click', function(e) {
+        $("#search_again").hide();
+        $("#selected_record").slideUp();
+        $("#search_form").slideDown();
+        $("#shelfmark_form").slideUp();
+    });
+
+
+    /** Load the next search result page. */
+    $(document).delegate( "a:contains('Next >')", 'click', function(e) {
+        e.preventDefault();
+        var url_parts = $("a:contains('Next >')").attr('href').split('&');
+        var pos = url_parts[1].replace('position=','');
+        var url_parts = $("a:contains('Next >')").attr('href').split('query=');
+        var query = url_parts[1].split('&')[0];
+        performSearch(query, pos);
+    });
+
+
+    /** Load the previous search result page. */
+    $(document).delegate( "a:contains('< Previous')", 'click', function(e) {
+        e.preventDefault();
+        var url_parts = $("a:contains('< Previous')").attr('href').split('&');
+        var pos = url_parts[1].replace('position=','');
+        var url_parts = $("a:contains('< Previous')").attr('href').split('query=');
+        var query = url_parts[1].split('&')[0];
+        performSearch(query, pos);
+    });
+
+
+    /** Close alert windows. */
+    $(document).delegate('.close', 'click', function(e) {
+        $(this).parent().hide();
+    });
+
+
+    /** Load the card image. */
+    pybossa.taskLoaded(function(task, deferred) {
+        if (!$.isEmptyObject(task)) {
+            loadUserProgress();
+            // load image from flickr
+            var img = $('<img />');
+            img.load(function() {
+                // continue as soon as the image is loaded
+                deferred.resolve(task);
+            });
+            img.attr('src', task.info.url_b + "?now=" + new Date().getTime());
+            img.addClass('img-thumbnail img-responsive');
+            task.info.image = img;
+        } else {
+            deferred.resolve(task);
         }
     });
-}
 
 
-/** Use the OCLC control number to add a link to the WorldCat record. */
-function addOclcLinks() {
-    var base_url = 'https://www.worldcat.org/title/apis/oclc/'
-    $(".z3950-record").each(function() {
-        var oclc_id = $(this).find('div:first').attr('id');
-        var title = $(this).find('.title');
-        title.wrapInner('<a href="' + base_url + oclc_id + '" target="_blank" />');
+    /** Handle the shelfmark form being submitted. */
+    $(document).delegate('#shelfmark_form', 'submit', function(e) {
+        e.preventDefault();
+        $('.btn-answer').triggerHandler('click');
     });
-}
 
 
-/** Select a catalogue record. */
-$(document).delegate('.btn-z3950', 'click', function(e) {
-    var ctrl_num = $(this).attr('data-control-num');
-    var selected = $("#" + ctrl_num).html();
-    console.log(ctrl_num);
-    $("#search_form").slideUp();
-    $("#search_results").slideUp();
-    $("#selected_record").prepend(selected);
-    $("#selected_record").attr('data-selected-oclc', ctrl_num);
-    $("#selected_record").show();
-    $("#search_again").show();
-    $("#shelfmark_form").slideDown();
-    $("#shelfmark_field").focus();
-});
+    /** Present the task. */
+    pybossa.presentTask(function(task, deferred) {
+        if (!$.isEmptyObject(task)) {
+            loadUserProgress();
 
+            $('#photo-link').html('').append(task.info.image);
+            $("#photo-link").attr("href", task.info.link);
+            $('#task-id').html(task.id);
+            $('#shelfmark_form').trigger("reset");
+            $('#search_form').trigger("reset");
+            $("#shelfmark_form").hide();
+            $("#searching").hide();
+            $("#search_results").slideUp();
+            $('#comments').removeClass('in');
+            $('#comments').attr('aria-expanded', 'false');
+            $('#comments_btn').attr('aria-expanded', 'false');
+            $("#search_form").show();
+            $("#selected_record").html('');
+            $("#selected_record").attr('data-selected-oclc', '');
+            $("#search_again").hide();
+            $("#comments_field").val('');
+            $("#selected_record").hide();
+            $("#title_field").focus();
 
-
-/** Return to the search form. */
-$(document).delegate('#search_again', 'click', function(e) {
-    $("#search_again").hide();
-    $("#selected_record").slideUp();
-    $("#search_form").slideDown();
-    $("#shelfmark_form").slideUp();
-});
-
-
-/** Highlight the shelf mark location. */
-$("#shelfmark_field").focus(function() {
-    var container = $("#image-container");
-    $('<div class="child" style="position: absolute"/>')
-        .appendTo($("#image-container"))
-        .css("left", container.width() - (.6 * container.width()) + "px")
-        .css("bottom", container.height() - (.4 * container.height()) + "px")
-        .css("width", (.6 * container.width()) + "px")
-        .css("height", (.4 * container.height()) + "px")
-        .css("border", "1px solid " + 'blue');
-});
-
-
-/** Remove the shelf mark location highlight. */
-$("#shelfmark_field").blur(function() {
-    $("#image-container").children('div:last-child').remove();
-});
-
-
-/** Load the next search result page. */
-$(document).delegate( "a:contains('Next >')", 'click', function(e) {
-    e.preventDefault();
-    var url_parts = $("a:contains('Next >')").attr('href').split('&');
-    var pos = url_parts[1].replace('position=','');
-    var url_parts = $("a:contains('Next >')").attr('href').split('query=');
-    var query = url_parts[1].split('&')[0];
-    performSearch(query, pos);
-});
-
-
-/** Load the previous search result page. */
-$(document).delegate( "a:contains('< Previous')", 'click', function(e) {
-    e.preventDefault();
-    var url_parts = $("a:contains('< Previous')").attr('href').split('&');
-    var pos = url_parts[1].replace('position=','');
-    var url_parts = $("a:contains('< Previous')").attr('href').split('query=');
-    var query = url_parts[1].split('&')[0];
-    performSearch(query, pos);
-});
-
-
-/** Close alert windows. */
-$(document).delegate('.close', 'click', function(e) {
-    $(this).parent().hide();
-});
-
-
-/** Load the card image. */
-pybossa.taskLoaded(function(task, deferred) {
-    if (!$.isEmptyObject(task)) {
-        loadUserProgress();
-        // load image from flickr
-        var img = $('<img />');
-        img.load(function() {
-            // continue as soon as the image is loaded
-            deferred.resolve(task);
-        });
-        img.attr('src', task.info.url_b + "?now=" + new Date().getTime());
-        img.addClass('img-thumbnail img-responsive');
-        task.info.image = img;
-    } else {
-        deferred.resolve(task);
-    }
-});
-
-
-/** Handle the shelfmark form being submitted. */
-$(document).delegate('#shelfmark_form', 'submit', function(e) {
-    e.preventDefault();
-    $('.btn-answer').triggerHandler('click');
-});
-
-
-/** Present the task. */
-pybossa.presentTask(function(task, deferred) {
-    if (!$.isEmptyObject(task)) {
-        loadUserProgress();
-
-        $('#photo-link').html('').append(task.info.image);
-        $("#photo-link").attr("href", task.info.link);
-        $('#task-id').html(task.id);
-        $('#shelfmark_form').trigger("reset");
-        $('#search_form').trigger("reset");
-        $("#shelfmark_form").hide();
-        $("#searching").hide();
-        $("#search_results").slideUp();
-        $('#comments').removeClass('in');
-        $('#comments').attr('aria-expanded', 'false');
-        $('#comments_btn').attr('aria-expanded', 'false');
-        $("#search_error").hide();
-        $("#search_form").show();
-        $("#selected_record").html('');
-        $("#selected_record").attr('data-selected-oclc', '');
-        $("#search_again").hide();
-        $("#comments_field").val('');
-        $("#selected_record").hide();
-        $("#title_field").focus();
-
-        $('.btn-answer').off('click').on('click', function(evt) {
-            if (typeof $(this).attr("value") != 'undefined') {
-
-                task.answer = {'title':  task.info.title,
-                               'oclc': $("#selected_record").attr('data-selected-oclc'),
-                               'comments': $('#comments_field').val(),
-                               'shelfmark': $("#shelfmark_field").val(),
-                               'worldcat_url': 'https://www.worldcat.org/oclc/'
-                               + $("#selected_record").attr('data-selected-oclc')
-                               }
-                pybossa.saveTask(task.id, task.answer)
-                    .done(function() {
+            $('.btn-answer').off('click').on('click', function(evt) {
+                evt.preventDefault();
+                if (typeof $(this).attr("value") != 'undefined') {
+                    task.answer = {
+                        'title':  task.info.title,
+                        'oclc': $("#selected_record").attr('data-selected-oclc'),
+                        'comments': $('#comments_field').val(),
+                        'shelfmark': $("#shelfmark_field").val(),
+                        'worldcat_url': 'https://www.worldcat.org/oclc/'
+                        + $("#selected_record").attr('data-selected-oclc')
+                    }
+                    pybossa.saveTask(task.id, task.answer).done(function() {
                         deferred.resolve();
-                    })
-                    .fail(function(e) {
-                        pybossaLogError(e);
+                        pybossaNotify('Answer saved!', 'success', true);
+                    }).fail(function(xhr, status, error) {
+			pybossaLogError(new Error(error));
+		    });
+                } else {
+                    pybossaNotify('Error: Answer undefined', 'danger');
+                }
+            });
+        } else {
+          $(".skeleton").hide();
+          $('#image-container').hide();
+          pybossaNotify('Congratulations! You have contributed to all available tasks!', 'success');
+        }
+    });
 
-                    });
-            } else {
-                pybossaNotify('Error: Answer undefined', 'danger');
-            }
-        });
-    } else {
-      $(".skeleton").hide();
-      $('#image-container').hide();
-      pybossaNotify('Congratulations! You have contributed to all available tasks!', 'info')
-    }
-});
-
-pybossa.run(project_short_name);
+    pybossa.run(project_short_name);
 </script>
