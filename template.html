@@ -421,7 +421,6 @@
                 evt.preventDefault();
                 if (typeof $(this).attr("value") != 'undefined') {
                     task.answer = {
-                        'title':  task.info.title,
                         'oclc': $("#selected_record").attr('data-selected-oclc'),
                         'comments': $('#comments_field').val(),
                         'shelfmark': normalise_shelfmark($("#shelfmark_field").val()),
