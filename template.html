@@ -156,7 +156,7 @@
         <!-- Feedback items for the user -->
         <div class="col-xs-12">
             <div class="padding-top-lg text-center">
-                <p><span id="i18n_working_task">You are working now on task:</span> <span id="task-id" class="label label-default">#</span></p>
+                <p><span id="i18n_working_task">You are now working on task:</span> <span id="task-id" class="label label-default">#</span></p>
                 <p>
                     <span id="i18n_tasks_completed">You have contributed to</span> <span id="done" class="label label-danger"></span>
                     <span id="i18n_tasks_from">tasks from </span>
@@ -171,9 +171,9 @@
 </div>
 
 <script>
-    var project_short_name = 'convert_a_card';
+    let project_short_name = 'convert_a_card';
 
-    var libs = {'pinyin': ['DLC', 'CUY', 'ZCU', 'HMY', 'PULEA', 'YUL', 'CNEAL',
+    let libs = {'pinyin': ['DLC', 'CUY', 'ZCU', 'HMY', 'PULEA', 'YUL', 'CNEAL',
                            'CGU', 'COO', 'AMH', 'AUT', 'NSL', 'SLY', 'L2U', 'OCLCA',
                            'OCLCQ', 'OCLCF', 'OCLCO', 'BLSTP'],
                 'urdu': ['DLC', 'CGU', 'ZCU', 'CLU', 'YUS', 'PAULM', 'HLS', 'GZM',
@@ -208,11 +208,9 @@
     /** Load the user progress items. */
     function loadUserProgress() {
         pybossa.userProgress(project_short_name).done(function(data) {
-            var pct = Math.round((data.done * 100) / data.total);
+            let pct = Math.round((data.done * 100) / data.total).toString();
             $("#progress").css("width", pct.toString() + "%");
-            $("#progress").attr("title", "You have contributed to "
-                                         + pct.toString()
-                                         + "% of the tasks!");
+            $("#progress").attr("title", `You have contributed to ${pct}% of the tasks!`);
             $("#progress").tooltip({'placement': 'bottom'});
             $("#total").text(data.total);
             $("#done").text(data.done);
@@ -229,23 +227,23 @@
 
     /** Use the form data to build a search query. */
     function buildQuery() {
-        var title = $("#title_field").val().trim();
+        let title = $("#title_field").val().trim();
         if (title.length >= 2) {
           title += "?"
         } else {
           title = "";
         }
 
-        var author = $("#author_field").val().trim();
+        let author = $("#author_field").val().trim();
         if (author.length >= 2) {
           author += "?"
         } else {
           author = "";
         }
 
-        var year = $("#year_field").val().trim();
-        var isbn = $("#isbn_field").val().trim().replace(/-/g, "");
-        var searchQuery = '(1,1183)="eng"and(1,6119)="(' + getLibs().join(' or ') + ')"';
+        let year = $("#year_field").val().trim();
+        let isbn = $("#isbn_field").val().trim().replace(/-/g, "");
+        let searchQuery = '(1,1183)="eng"and(1,6119)="(' + getLibs().join(' or ') + ')"';
         searchQuery += 'and(1,4)="' + title + '"';
         searchQuery += 'and(1,1003)="' + author + '"';
         searchQuery += 'and(1,31)="' + year + '"';
@@ -273,7 +271,7 @@
                 $("#search_results").slideDown();
                 addOclcLinks();
             }, error: function(jqXhr, textStatus, errorThrown) {
-                var res = JSON.parse(jqXhr.responseText)
+                let res = JSON.parse(jqXhr.responseText)
                 if (jqXhr.status == 404) {
                     pybossaNotify('No results found', 'info')
                 } else if (res['message'] == "Truncated words too short") {
@@ -292,13 +290,13 @@
 
     /** Use the OCLC control number to add a link to the WorldCat record. */
     function addOclcLinks() {
-        var base_url = 'https://www.worldcat.org/title/apis/oclc/'
         $(".z3950-record").each(function() {
-            var oclc_id = $(this).find('div:first').attr('id');
-            var title = $(this).find('.title');
-            title.wrapInner('<a href="' + base_url + oclc_id + '" target="_blank" />');
+            let oclc_id = $(this).find('div:first').attr('id');
+            let title = $(this).find('.title');
+            title.wrapInner(`<a href="https://www.worldcat.org/title/apis/oclc/${oclc_id}" target="_blank" />`);
         });
     }
+
 
     /** Normalise a shelfmark. */
     function normalise_shelfmark(sm) {
@@ -317,8 +315,8 @@
 
     /** Select a catalogue record. */
     $(document).delegate('.btn-z3950', 'click', function(e) {
-        var ctrl_num = $(this).attr('data-control-num');
-        var selected = $("#" + ctrl_num).html();
+        let ctrl_num = $(this).attr('data-control-num');
+        let selected = $("#" + ctrl_num).html();
         console.log(ctrl_num);
         $("#search_form").slideUp();
         $("#search_results").slideUp();
@@ -344,10 +342,10 @@
     /** Load the next search result page. */
     $(document).delegate( "a:contains('Next >')", 'click', function(e) {
         e.preventDefault();
-        var url_parts = $("a:contains('Next >')").attr('href').split('&');
-        var pos = url_parts[1].replace('position=','');
-        var url_parts = $("a:contains('Next >')").attr('href').split('query=');
-        var query = url_parts[1].split('&')[0];
+        let url_parts = $("a:contains('Next >')").attr('href').split('&');
+        let pos = url_parts[1].replace('position=','');
+        let url_parts = $("a:contains('Next >')").attr('href').split('query=');
+        let query = url_parts[1].split('&')[0];
         performSearch(query, pos);
     });
 
@@ -355,10 +353,10 @@
     /** Load the previous search result page. */
     $(document).delegate( "a:contains('< Previous')", 'click', function(e) {
         e.preventDefault();
-        var url_parts = $("a:contains('< Previous')").attr('href').split('&');
-        var pos = url_parts[1].replace('position=','');
-        var url_parts = $("a:contains('< Previous')").attr('href').split('query=');
-        var query = url_parts[1].split('&')[0];
+        let url_parts = $("a:contains('< Previous')").attr('href').split('&');
+        let pos = url_parts[1].replace('position=','');
+        let url_parts = $("a:contains('< Previous')").attr('href').split('query=');
+        let query = url_parts[1].split('&')[0];
         performSearch(query, pos);
     });
 
@@ -374,7 +372,7 @@
         if (!$.isEmptyObject(task)) {
             loadUserProgress();
             // load image from flickr
-            var img = $('<img />');
+            let img = $('<img />');
             img.load(function() {
                 // continue as soon as the image is loaded
                 deferred.resolve(task);
