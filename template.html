@@ -300,6 +300,20 @@
         });
     }
 
+    /** Normalise a shelfmark. */
+    function normalise_shelfmark(sm) {
+	if (!sm.length) {
+	    return "";
+	}
+	sm = sm.replace(/,/g, '.')
+	sm = sm.replace(/\s+/g, '.')
+	sm = sm.replace(/\.+/g, '.')
+	sm = sm.replace(/\.$/, '')
+	sm = sm.replace(/^\./, '')
+	sm = sm.replace(/^chi/i, 'CHI')
+	return sm
+    }
+
 
     /** Select a catalogue record. */
     $(document).delegate('.btn-z3950', 'click', function(e) {
@@ -412,7 +426,7 @@
                         'title':  task.info.title,
                         'oclc': $("#selected_record").attr('data-selected-oclc'),
                         'comments': $('#comments_field').val(),
-                        'shelfmark': $("#shelfmark_field").val(),
+                        'shelfmark': normalise_shelfmark($("#shelfmark_field").val()),
                         'worldcat_url': 'https://www.worldcat.org/oclc/'
                         + $("#selected_record").attr('data-selected-oclc')
                     }
