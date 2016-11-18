@@ -423,9 +423,7 @@
                     task.answer = {
                         'oclc': $("#selected_record").attr('data-selected-oclc'),
                         'comments': $('#comments_field').val(),
-                        'shelfmark': normalise_shelfmark($("#shelfmark_field").val()),
-                        'worldcat_url': 'https://www.worldcat.org/oclc/'
-                        + $("#selected_record").attr('data-selected-oclc')
+                        'shelfmark': normalise_shelfmark($("#shelfmark_field").val())
                     }
                     pybossa.saveTask(task.id, task.answer).done(function() {
                         deferred.resolve();
