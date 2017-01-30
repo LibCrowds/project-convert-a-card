@@ -344,7 +344,7 @@
         e.preventDefault();
         let url_parts = $("a:contains('Next >')").attr('href').split('&');
         let pos = url_parts[1].replace('position=','');
-        let url_parts = $("a:contains('Next >')").attr('href').split('query=');
+		url_parts = $("a:contains('Next >')").attr('href').split('query=');
         let query = url_parts[1].split('&')[0];
         performSearch(query, pos);
     });
@@ -355,7 +355,7 @@
         e.preventDefault();
         let url_parts = $("a:contains('< Previous')").attr('href').split('&');
         let pos = url_parts[1].replace('position=','');
-        let url_parts = $("a:contains('< Previous')").attr('href').split('query=');
+		url_parts = $("a:contains('< Previous')").attr('href').split('query=');
         let query = url_parts[1].split('&')[0];
         performSearch(query, pos);
     });
