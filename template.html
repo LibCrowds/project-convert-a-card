@@ -66,7 +66,7 @@
 <script>
   let project_short_name = 'convert_a_card';
 
-  let FLASK_Z3950_URL = 'https://www.libcrowds.com/z3950/search/oclc/json'
+  let FLASK_Z3950_URL = 'https://backend.libcrowds.com/z3950/search/oclc/json'
 
   let TRUSTED_LIBS =  [
     'DLC',
@@ -109,11 +109,6 @@
     let author = document.getElementById('author').value.trim();
     let year = document.getElementById('year').value.trim();
     let isbn = document.getElementById('isbn').value.trim().replace(/-/g, '');
-
-    // Use LIKE style queries for title and author
-    title += "?"
-    author += "?"
-
     let q = '(1,1183)="eng"and(1,6119)="(' + TRUSTED_LIBS.join(' or ') + ')"';
     q += 'and(1,4)="' + title + '"';
     q += 'and(1,1003)="' + author + '"';
@@ -140,13 +135,11 @@
       if(request.readyState === 4) {
         if(request.status === 200) {
           // Handle response
-          console.log(request)
+          console.log(JSON.parse(request.response))
         } else if(request.status === 404) {
           showAlert('No results found', 'info')
-        } else if (request.status !== 0){
-          showAlert(request.status + ' error: ' + request.statusText, 'danger')
         } else {
-          showAlert('Server Error')
+          showAlert(request.status + ' error: ' + request.statusText, 'danger')
         }
       }
     }
@@ -175,31 +168,6 @@
     alertElem.classList.remove('alert-success', 'alert-info', 'alert-danger')
     alertElem.innerHTML = ''
   }
-
-
-  //   /** Use the OCLC control number to add a link to the WorldCat record. */
-  //   function addOclcLinks() {
-  //       $(".z3950-record").each(function() {
-  //           let oclc_id = $(this).find('div:first').attr('id');
-  //           let title = $(this).find('.title');
-  //           title.wrapInner(`<a href="https://www.worldcat.org/title/apis/oclc/${oclc_id}" target="_blank" />`);
-  //       });
-  //   }
-
-
-  //   /** Normalise a shelfmark. */
-  //   function normalise_shelfmark(sm) {
-	// if (!sm.length) {
-	//     return "";
-	// }
-	// sm = sm.replace(/,/g, '.')
-	// sm = sm.replace(/\s+/g, '.')
-	// sm = sm.replace(/\.+/g, '.')
-	// sm = sm.replace(/\.$/, '')
-	// sm = sm.replace(/^\./, '')
-	// sm = sm.replace(/^chi/i, 'CHI')
-	// return sm
-  //   }
 
 
   //   /** Select a catalogue record. */
